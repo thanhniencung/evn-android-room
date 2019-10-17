@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -25,4 +26,12 @@ public interface UserDao {
 
     @Delete
     void delete(User user);
+
+    @Query("UPDATE User " +
+            "SET " +
+                "first_name = :firstName, " +
+                "last_name = :lastName " +
+            "WHERE " +
+                "uid = :uid")
+    int updateUser(String firstName, String lastName, int uid);
 }

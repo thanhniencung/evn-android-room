@@ -19,7 +19,8 @@ public class UserAdapter extends
     public static final String TAG = "UserAdapter";
 
     public interface UserActionListener {
-        public void onRequestDelete(User user);
+        void onRequestDelete(User user);
+        void onRequestUpdate(User user);
     }
     UserActionListener userActionListener;
 
@@ -32,6 +33,12 @@ public class UserAdapter extends
     public void addUsers(List<User> data) {
         list.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void updateUser(User user) {
+        int pos = list.indexOf(user);
+        list.set(pos, user);
+        notifyItemChanged(pos);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,21 +57,36 @@ public class UserAdapter extends
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, list.get(getAdapterPosition()).uid + "");
-                    delete(list.get(getAdapterPosition()));
+                    callBackDelete(list.get(getAdapterPosition()));
+                }
+            });
+
+            itemView.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, list.get(getAdapterPosition()).uid + "");
+                    callBackUpdate(list.get(getAdapterPosition()));
                 }
             });
         }
     }
 
-    void delete(User user) {
+    void callBackDelete(User user) {
         if (userActionListener != null) {
             userActionListener.onRequestDelete(user);
         }
     }
 
+    void callBackUpdate(User user) {
+        if (userActionListener != null) {
+            userActionListener.onRequestUpdate(user);
+        }
+    }
+
     public void removeRowByUser(User user) {
-        list.remove(user);
-        notifyItemRemoved(list.indexOf(user));
+        int pos = list.indexOf(user);
+        list.remove(pos);
+        notifyItemRemoved(pos);
     }
 
     @Override

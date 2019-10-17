@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/userInfo"
-        android:layout_toLeftOf="@+id/delete"
+        android:layout_toLeftOf="@+id/actionContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -37,16 +37,35 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/actionContainer"
         android:layout_margin="10dp"
-        android:id="@+id/delete"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_width="45dp"
-        android:layout_height="45dp">
-        <ImageView
-            android:src="@drawable/ic_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/delete"
+            android:layout_centerVertical="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp">
+            <ImageView
+                android:src="@drawable/ic_delete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/update"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp">
+            <ImageView
+                android:src="@drawable/ic_update"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
