@@ -1,6 +1,7 @@
 package com.evn.room;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 
 import android.os.AsyncTask;
@@ -21,24 +22,15 @@ public class MainActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, DB_NAME).build();
 
-        getAllUsers();
+        db.userDao().getAll().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                String a = "";
+            }
+        });
     }
 
-    void displayUsers() {
-        new AsyncTask<Void, Void, List<User>>() {
-            @Override
-            protected List<User> doInBackground(Void... voids) {
-                return db.userDao().getAll();
-            }
-
-            @Override
-            protected void onPostExecute(List<User> users) {
-                super.onPostExecute(users);
-            }
-        }.execute();
-    }
-
-    void getAllUsers() {
+    void demoInsert() {
         new AsyncTask<Void, Void, Integer>() {
 
             @Override
@@ -48,28 +40,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected Integer doInBackground(Void... indexs) {
-                return loadUsersInBackground();
+                for (int i=0; i<10; i++) {
+                    Random rand = new Random();
+
+                    User user = new User();
+                    user.uid = rand.nextInt(1000000);
+                    user.firstName = "Hoa " + i;
+                    user.lastName = "Nguyen";
+
+                    db.userDao().insertAll(user);
+                }
+                return 1;
             }
 
             @Override
             protected void onPostExecute(Integer aVoid) {
                 super.onPostExecute(aVoid);
-                displayUsers();
             }
         }.execute();
     }
 
-    int loadUsersInBackground() {
-        for (int i=0; i<10; i++) {
-            Random rand = new Random();
-
-            User user = new User();
-            user.uid = rand.nextInt(100000000);
-            user.firstName = "Hung " + i;
-            user.lastName = "Nguyen";
-
-            db.userDao().insertAll(user);
-        }
-        return 1;
-    }
 }

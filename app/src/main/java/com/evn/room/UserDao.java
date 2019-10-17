@@ -1,5 +1,6 @@
 package com.evn.room;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,7 +11,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Query("SELECT * FROM user")
-    List<User> getAll();
+    LiveData<List<User>> getAll();
 
     @Query("SELECT * FROM user WHERE uid IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
